@@ -1,0 +1,33 @@
+:root { --wind: 0deg; --wind-shift: 0px; --cursor-x: 50%; --cursor-y: 45%; color-scheme: light; }
+* { box-sizing: border-box; }
+html, body { width: 100%; min-height: 100%; margin: 0; }
+body { overflow: hidden; background: #d7a3ad; color: #11274b; font-family: "DM Sans", sans-serif; }
+.scene { position: relative; width: 100vw; height: 100svh; min-height: 580px; isolation: isolate; overflow: hidden; }
+.backdrop, .light-wash, .flower-field, .petals { position: absolute; inset: 0; }
+.backdrop { z-index: -4; inset: -4%; background: linear-gradient(180deg, rgba(40,17,34,.03), rgba(255,227,220,.16)), url("assets/cherry-blossoms.webp") center 44% / cover no-repeat; animation: breathe 18s ease-in-out infinite alternate; filter: saturate(.92) contrast(.98); transform: translate3d(calc(var(--wind-shift) * -.08),0,0) scale(1.06); }
+.light-wash { z-index: -3; background: radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(255,250,239,.36), transparent 28%), linear-gradient(90deg, rgba(255,246,238,.14), transparent 40%, rgba(81,35,61,.08)); mix-blend-mode: screen; pointer-events: none; }
+.intro { position: absolute; z-index: 3; top: 13%; left: clamp(28px,7vw,112px); width: min(520px,78vw); text-shadow: 0 2px 24px rgba(255,240,233,.68); pointer-events: none; }
+.eyebrow { margin: 0 0 18px 4px; color: rgba(17,39,75,.74); font-size: clamp(.67rem,.8vw,.78rem); font-weight: 500; letter-spacing: .28em; text-transform: uppercase; }
+h1 { margin: 0; font-family: "Italiana", serif; font-size: clamp(5rem,10.5vw,10.5rem); font-weight: 400; letter-spacing: -.065em; line-height: .68; }
+h1 em { display: inline-block; margin-left: .32em; color: #174d9a; font-weight: 400; }
+.invitation { width: 245px; margin: clamp(34px,5vh,60px) 0 0 7px; color: rgba(18,36,65,.7); font-family: "Italiana", serif; font-size: clamp(1rem,1.4vw,1.2rem); line-height: 1.55; }
+.flower-field { z-index: 1; inset: auto auto -10vh; width: max(920px,78vw); transform-origin: 50% 100%; pointer-events: none; will-change: transform; }
+.flower-field img { display: block; width: 100%; height: auto; filter: drop-shadow(0 20px 16px rgba(15,31,62,.14)); user-select: none; }
+.flower-field-back { right: -12vw; width: max(760px,63vw); opacity: .72; filter: blur(.6px) saturate(.88); animation: sway-back 7.8s ease-in-out infinite; }
+.flower-field-front { right: -4vw; animation: sway-front 5.7s ease-in-out infinite; }
+.petals { overflow: hidden; pointer-events: none; }
+.petals-back { z-index: -1; opacity: .58; filter: blur(1.2px); }
+.petals-front { z-index: 4; }
+.petal { --size: 13px; --duration: 13s; --delay: 0s; --drift: 14vw; --start: 20vw; position: absolute; top: -12vh; left: var(--start); width: var(--size); height: calc(var(--size) * .72); border-radius: 75% 15% 70% 20%; background: linear-gradient(135deg,#fff8f4,#efb4be 70%,#d98d9f); box-shadow: inset 1px 1px 2px rgba(255,255,255,.75); opacity: 0; animation: petal-fall var(--duration) linear var(--delay) infinite; transform-origin: 30% 50%; }
+.petal:nth-child(3n) { background: linear-gradient(135deg,#fbe3e2,#eaa8b4 70%,#ca748a); }
+.wind-mark { position: absolute; z-index: 5; right: clamp(22px,4vw,60px); top: clamp(24px,5vh,55px); display: grid; gap: 6px; width: 42px; opacity: .52; }
+.wind-mark span { display: block; height: 1px; border-radius: 999px; background: #173f78; transform-origin: right; animation: wind-line 3.4s ease-in-out infinite; }
+.wind-mark span:nth-child(2) { width: 72%; margin-left: auto; animation-delay: -1.1s; }
+.wind-mark span:nth-child(3) { width: 46%; margin-left: auto; animation-delay: -2.2s; }
+@keyframes breathe { from { filter: saturate(.88) contrast(.97) brightness(.98); } to { filter: saturate(1) contrast(1) brightness(1.05); } }
+@keyframes sway-front { 0%,100% { transform: translate3d(var(--wind-shift),0,0) rotate(calc(-1.3deg + var(--wind))); } 50% { transform: translate3d(calc(var(--wind-shift) + 18px),1.5vh,0) rotate(calc(2deg + var(--wind))); } }
+@keyframes sway-back { 0%,100% { transform: translate3d(calc(var(--wind-shift) * .55),0,0) rotate(calc(1deg + var(--wind) * .6)); } 50% { transform: translate3d(calc(var(--wind-shift) * .55 - 22px),1vh,0) rotate(calc(-2deg + var(--wind) * .6)); } }
+@keyframes petal-fall { 0% { opacity: 0; transform: translate3d(0,-8vh,0) rotate(0) rotateY(0); } 8%,82% { opacity: .88; } 100% { opacity: 0; transform: translate3d(calc(var(--drift) + var(--wind-shift)),125vh,0) rotate(680deg) rotateY(540deg); } }
+@keyframes wind-line { 0%,100% { transform: scaleX(.62); opacity: .35; } 50% { transform: scaleX(1); opacity: .9; } }
+@media (max-width:720px) { .scene { min-height: 520px; } .backdrop { background-position: 58% center; } .intro { top: 14%; left: 24px; } h1 { font-size: clamp(4.5rem,25vw,7rem); } .invitation { width: 190px; margin-top: 32px; font-size: 1rem; } .flower-field-front { right: -54vw; bottom: -2vh; width: max(750px,172vw); } .flower-field-back { right: -82vw; bottom: 7vh; width: max(680px,155vw); } }
+@media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; } .petals { display: none; } }
